@@ -1,0 +1,21 @@
+# Generated outputs — commit the code that makes them, not the artifacts.
+artifacts/
+*.keras
+*.h5
+*.png
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

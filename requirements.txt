@@ -1,0 +1,6 @@
+# Core ML stack — pin loosely for a learning project.
+numpy>=1.26
+scikit-learn>=1.4      # dataset + train/test split + StandardScaler + metrics
+tensorflow>=2.15       # Keras Sequential API
+matplotlib>=3.8        # confusion matrix + learning curves
+pytest>=8.0            # tests

@@ -9,6 +9,9 @@ module is structured to make that mistake hard to commit.
 from dataclasses import dataclass
 
 import numpy as np
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 
 @dataclass
@@ -42,11 +45,15 @@ def load_data():
       - Call it with `return_X_y=False` so you also get `.feature_names`.
       - Return X, y, and the feature names as a list.
     """
-    # TODO: implement
-    raise NotImplementedError
+    raw_data = load_breast_cancer(return_X_y=False)
+    X = raw_data.data
+    y = raw_data.target
+    feature_names = list(raw_data.feature_names)
+
+    return X, y, feature_names
 
 
-def split_and_scale(X, y, config):
+def split_and_scale(X, y, feature_names, config):
     """Split into train/val/test and standardize features (fit on train only).
 
     Parameters
@@ -73,5 +80,18 @@ def split_and_scale(X, y, config):
     tests/test_data.py checks that your test set was scaled with the training
     statistics, not its own.
     """
-    # TODO: implement
-    raise NotImplementedError
+    
+    # split off the test set 
+    X_remaining, X_test, y_remaining, y_test = train_test_split(X, y, test_size=config.test_size, random_state=config.seed, stratify=y if config.stratify else None)
+
+    # split off val set from remaining data
+    X_train, X_val, y_train, y_val = train_test_split(X_remaining, y_remaining, test_size=config.val_size, random_state=config.seed, stratify=y_remaining if config.stratify else None)
+
+    # create one standard scaler
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    X_val = scaler.transform(X_val)
+
+    # return the dataset
+    return Dataset(X_train, X_val, X_test, y_train, y_val, y_test, feature_names)

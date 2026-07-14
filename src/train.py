@@ -68,7 +68,7 @@ def main():
     set_seeds(CONFIG.seed)
 
     X, y, feature_names = load_data()
-    data = split_and_scale(X, y, CONFIG)
+    data = split_and_scale(X, y, feature_names, CONFIG)
 
     if args.model == "baseline":
         train_baseline(data, CONFIG)

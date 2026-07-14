@@ -16,8 +16,8 @@ from src.data import load_data, split_and_scale
 
 @pytest.fixture
 def data():
-    X, y, _ = load_data()
-    return split_and_scale(X, y, CONFIG)
+    X, y, feature_names = load_data()
+    return split_and_scale(X, y, feature_names, CONFIG)
 
 
 def test_shapes_line_up(data):

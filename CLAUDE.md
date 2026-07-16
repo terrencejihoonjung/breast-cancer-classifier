@@ -88,7 +88,10 @@ pytest
 - [x] **Step 1 — `src/data.py`**: `load_data()` and `split_and_scale()` done;
       `pytest` green. Note: `split_and_scale` gained a `feature_names` parameter,
       so `train.py` and `tests/test_data.py` were updated to pass it through.
-- [ ] Step 2 — `src/model.py` (baseline first, then NN)  ← next
-- [ ] Step 3 — `src/train.py`
+- [x] **Step 2 — `src/model.py`**: `build_baseline()` (logistic regression) and
+      `build_nn()` (compiled Keras Sequential) done. Dropout layer deferred to the
+      stretch goal (config `dropout`/`l2` default to 0).
+- [~] **Step 3 — `src/train.py`**: `train_baseline()` done and verified (98.9%
+      train / 97.8% val — the bar the NN must beat). `train_nn()` still TODO.  ← next
 - [ ] Step 4 — `src/evaluate.py`
 - [ ] Step 5 — stretch goals

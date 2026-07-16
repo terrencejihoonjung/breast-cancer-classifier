@@ -5,6 +5,15 @@ can't beat plain logistic regression on this dataset, you have a bug, not a
 breakthrough.
 """
 
+from sklearn.linear_model import LogisticRegression
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.regularizers import L2
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import BinaryCrossentropy
+from tensorflow.keras.metrics import Precision, Recall
+
 
 def build_baseline(config):
     """Logistic regression baseline.
@@ -18,8 +27,8 @@ def build_baseline(config):
       - (Optional) expose C as a config knob to tie into your regularization
         notes — smaller C = stronger regularization.
     """
-    # TODO: implement
-    raise NotImplementedError
+    
+    return LogisticRegression(max_iter=1000, random_state=config.seed)
 
 
 def build_nn(input_dim, config):
@@ -51,5 +60,21 @@ def build_nn(input_dim, config):
     for binary classification. Binary cross-entropy is the same loss you derived
     for logistic regression.
     """
-    # TODO: implement
-    raise NotImplementedError
+
+    # instantiate model
+    model = Sequential()
+
+    # add input layer
+    model.add(Input(shape=(input_dim,)))
+
+    # add hidden layers 
+    for units in config.hidden_units:
+        model.add(Dense(units, activation=config.hidden_activation, kernel_regularizer=L2(config.l2)))
+    
+    # add output layer
+    model.add(Dense(1, activation=config.output_activation))
+
+    # compile model
+    model.compile(optimizer=Adam(learning_rate=config.learning_rate), loss=BinaryCrossentropy(), metrics=['accuracy', Precision(), Recall()])
+    
+    return model

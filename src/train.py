@@ -34,8 +34,11 @@ def train_baseline(data, config):
       - print train and validation accuracy (model.score(...))
       - return model
     """
-    # TODO: implement
-    raise NotImplementedError
+    model = build_baseline(config)
+    model.fit(data.X_train, data.y_train)
+    print("Train accuracy:", model.score(data.X_train, data.y_train))
+    print("Validation accuracy:", model.score(data.X_val, data.y_val))
+    return model
 
 
 def train_nn(data, config):

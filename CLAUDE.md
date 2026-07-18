@@ -91,7 +91,12 @@ pytest
 - [x] **Step 2 — `src/model.py`**: `build_baseline()` (logistic regression) and
       `build_nn()` (compiled Keras Sequential) done. Dropout layer deferred to the
       stretch goal (config `dropout`/`l2` default to 0).
-- [~] **Step 3 — `src/train.py`**: `train_baseline()` done and verified (98.9%
-      train / 97.8% val — the bar the NN must beat). `train_nn()` still TODO.  ← next
-- [ ] Step 4 — `src/evaluate.py`
-- [ ] Step 5 — stretch goals
+- [x] **Step 3 — `src/train.py`**: `train_baseline()` done and verified (98.9%
+      train / 97.8% val — the bar the NN must beat). `train_nn()` done: builds,
+      fits with val data, saves to `artifacts/nn.keras`, returns `(model, history)`.
+      Result: 99.7% train / 96.7% val — does NOT beat the baseline. Overfitting
+      (train≫val, val loss creeping up past ~epoch 90) with `l2=0`/`dropout=0`.
+      Regularization is the Step 5 fix.
+- [ ] **Step 4 — `src/evaluate.py`**: confusion matrix + recall + learning
+      curves, to *see* the overfitting rather than infer it from the epoch log.  ← next
+- [ ] Step 5 — stretch goals (early stopping / L2 / dropout to close the gap)

@@ -13,6 +13,7 @@ import argparse
 import random
 
 import numpy as np
+import tensorflow as tf
 
 from config import CONFIG
 from src.data import load_data, split_and_scale
@@ -54,8 +55,12 @@ def train_nn(data, config):
       - save the model to config.artifacts_dir / 'nn.keras'
       - return model, history   # history feeds the learning-curve plot
     """
-    # TODO: implement
-    raise NotImplementedError
+    tf.random.set_seed(config.seed)
+    model = build_nn(input_dim=data.X_train.shape[1], config=config)
+    history = model.fit(data.X_train, data.y_train, validation_data=(data.X_val, data.y_val), epochs=config.epochs, batch_size=config.batch_size, verbose=2)
+    model.save(config.artifacts_dir / "nn.keras")
+    return model, history
+
 
 
 def main():

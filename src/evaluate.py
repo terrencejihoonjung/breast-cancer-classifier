@@ -7,6 +7,11 @@ not just overall accuracy.
 
 import numpy as np
 
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score,
+    f1_score, confusion_matrix, classification_report,
+)
+
 
 def predict_labels(model, X, threshold):
     """Turn a model's probability output into 0/1 labels.
@@ -18,8 +23,11 @@ def predict_labels(model, X, threshold):
         Otherwise (Keras): use `model.predict(X)` and flatten.
       - Return (proba >= threshold).astype(int).
     """
-    # TODO: implement
-    raise NotImplementedError
+    
+    if hasattr(model, 'predict_proba'):
+      return (model.predict_proba(X)[:, 1] >= threshold).astype(int)
+    else:
+      return (model.predict(X).flatten() >= threshold).astype(int)
 
 
 def print_metrics(y_true, y_pred):
@@ -30,8 +38,18 @@ def print_metrics(y_true, y_pred):
         f1_score, confusion_matrix, classification_report.
       - Print them clearly labeled. Call out recall explicitly.
     """
-    # TODO: implement
-    raise NotImplementedError
+    
+    print(f"Accuracy: {accuracy_score(y_true, y_pred)}")
+    print(f"Precision (malignant): {precision_score(y_true, y_pred, pos_label=0)}")
+    print(f"Recall (malignant): {recall_score(y_true, y_pred, pos_label=0)}")
+    print(f"F1 (malignant): {f1_score(y_true, y_pred, pos_label=0)}")
+
+    print("Confusion matrix (rows=actual, cols=predicted):")
+    print(confusion_matrix(y_true, y_pred))
+
+    print("Classification report:")
+    print(classification_report(y_true, y_pred, zero_division=0))
+
 
 
 def plot_confusion_matrix(y_true, y_pred, save_path):
